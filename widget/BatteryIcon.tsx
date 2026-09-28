@@ -1,0 +1,182 @@
+import { Gtk } from "ags/gtk4"
+import Cairo from "gi://cairo"
+import { createBinding } from "ags"
+import Battery from "gi://AstalBattery"
+
+const battery = Battery.get_default()
+
+const SHELL_NORMAL =
+  "M450.5,204h-32.6v-48.3c0-3.5-0.7-6.8-1.9-9.7c-3.1-7.8-9.9-13.2-17.8-13.2H57.5c-12.2,0-22.1,9.9-22.1,22v189.4c0,3.2,0.5,6.2,1.5,8.9c0.1,0.2,0.1,0.4,0.2,0.5c3.1,8,9.9,13.5,17.9,13.5h343.3c7.9,0,14.7-5.5,17.8-13.4c0,0,0,0,0-0.1c1.1-2.9,1.7-6.1,1.7-9.4v-49.4h32.6c8,0,14.4-6.4,14.4-14.4v-62C464.9,210.4,458.4,204,450.5,204z M401.8,329.1c0,12.7-8.8,22.9-19.6,22.9H69.8c-10.8,0-19.6-10.2-19.6-22.9V167.9c0-12.2,9.9-22,22.1-22h17.7l292.2,2.1c10.8,0,19.6,10.2,19.6,22.9V329.1z M454.8,265.8c0,8-6.5,14.4-14.4,14.4h-22.4v-61.6h22.4c8,0,14.4,6.5,14.4,14.4V265.8z"
+
+const RING_NORMAL =
+  "M371,175.7c2.3,0,4.2,1.9,4.2,4.2V320c0,2.3-1.9,4.2-4.2,4.2H82.3c-2.3,0-4.2-1.9-4.2-4.2l0-140.1c0-2.3,1.9-4.2,4.2-4.2H371 M371,161.7H82.3c-10,0-18.1,8.1-18.2,18.2V320c0,10.1,8.2,18.2,18.2,18.2H371c10.1,0,18.2-8.2,18.2-18.2V179.9C389.2,169.8,381,161.7,371,161.7z"
+
+const FULL_NORMAL =
+  "M82.3,161.7H371c10,0,18.2,8.1,18.2,18.2V320c0,10-8.1,18.2-18.2,18.2H82.3c-10,0-18.2-8.1-18.2-18.2V179.9C64.2,169.9,72.3,161.7,82.3,161.7z"
+
+const SHELL_CHARGING_MAIN =
+  "M450.5,204h-32.6v-48.3c0-3.5-0.7-6.8-1.9-9.7c-3.1-7.8-9.9-13.2-17.8-13.2H102.4c1.6,4.2,2.7,8.6,3.4,13.2l276.4,2c10.8,0,19.6,10.2,19.6,22.9v158.2c0,12.7-8.8,22.9-19.6,22.9H69.8c-10.8,0-19.6-10.2-19.6-22.9V208.7l0-2.6l0-7.5c0,0,0,0,0,0c5-0.9,9.7-2.8,13.9-5.5v-13.2c0-1.5,0.2-3,0.6-4.4c-3.5,4.8-8.6,8.4-14.5,10c-2.3,0.7-4.8,1-7.4,1c-2.6,0-5.1-0.4-7.4-1c-7.7-2.2-14.1-7.6-17.4-14.8c-1.2-2.7-3-7.8-3-7.8s-1.1-4.4-1.1-6.5v-4.6c0-4.6,3.3-8.5,7.5-9c0.3,0,0.7-0.1,1.1-0.1h40.6c0.3,0,0.7,0,1,0.1c2.2,0.3,4.2,1.5,5.5,3.2c1.3,1.6,2,3.6,2,5.9v4.6c0,2.1-1,5.6-1,5.6s-1,3-2,5.7c3.3-3.8,8.2-6.2,13.6-6.2h0.1c0-0.7,0.1-1.3,0.1-1.9v-18c0-4.7-3.4-8.6-7.8-9c-0.2,0-0.5,0-0.8,0h-8.6v-24.6c0-2-0.8-3.8-2.1-5.2c-1.3-1.3-3.2-2.1-5.2-2.1c-2.6,0-4.8,1.3-6.1,3.3c0,0,0,0,0,0c-0.8,1.1-1.2,2.5-1.2,4v24.6H31.3v-24.6c0-1.2-0.3-2.4-0.8-3.4c-0.3-0.7-0.8-1.3-1.3-1.8c-1.4-1.3-3.2-2.1-5.2-2.1c-4.1,0-7.3,3.3-7.3,7.3v24.6h-5c-4.7,0-8.6,4-8.6,9v18c0,1.4,0.1,2.7,0.2,3.9c1.8,17.6,15,31.7,32,34.9v145.5c0,3.2,0.5,6.2,1.5,8.9c0.1,0.2,0.1,0.4,0.2,0.5c3.1,8,9.9,13.5,17.9,13.5h343.3c7.9,0,14.7-5.5,17.8-13.4c0,0,0,0,0-0.1c1.1-2.9,1.7-6.1,1.7-9.4v-49.4h32.6c8,0,14.4-6.4,14.4-14.4v-62C464.9,210.4,458.4,204,450.5,204z M454.8,265.8c0,8-6.5,14.4-14.4,14.4H418v-61.6h22.4c8,0,14.4,6.5,14.4,14.4V265.8z"
+
+const SHELL_CHARGING_TAB =
+  "M82.3,161.7c-5.4,0-10.3,2.4-13.6,6.2c0,0,0,0,0,0c-0.4,1.1-0.8,2.1-1.2,2.8c-0.8,1.7-1.7,3.3-2.9,4.8c-0.3,1.4-0.5,2.9-0.6,4.4v13.2c9.9-6.3,16.9-17,18.2-29.4c0.1-0.7,0.1-1.4,0.1-2H82.3z"
+
+const RING_CHARGING =
+  "M389.2,179.9V320c0,10-8.1,18.2-18.2,18.2H82.3c-10,0-18.2-8.1-18.2-18.2V215c5-1.8,9.7-4.2,14-7V320c0,2.3,1.9,4.2,4.2,4.2H371c2.3,0,4.2-1.9,4.2-4.2V179.9c0-2.3-1.9-4.2-4.2-4.2H103c1.6-4.5,2.6-9.2,3.1-14H371C381,161.7,389.2,169.8,389.2,179.9z"
+
+const FULL_CHARGING =
+  "M389.2,179.9V320c0,10-8.1,18.2-18.2,18.2H82.3c-10,0-18.2-8.1-18.2-18.2V215c5-1.8,9.7-4.2,14-7c0.2-0.1,16.9-10.9,24.9-32.2c1.6-4.5,2.6-9.2,3.1-14H371C381,161.7,389.2,169.8,389.2,179.9z"
+
+const FILL_X = 64.1
+const FILL_Y = 161.7
+const FILL_W = 389.2 - FILL_X
+const FILL_H = 338.2 - FILL_Y
+
+const ICON_MIN_X = 0
+const ICON_MIN_Y = 95
+const ICON_W = 468
+const ICON_H = 277
+
+function parseSvgPath(cr: Cairo.Context, d: string) {
+  const tokens = d.match(/[MmLlHhVvCcSsZz]|-?\d*\.?\d+(?:[eE][-+]?\d+)?/g) || []
+  let i = 0, cx = 0, cy = 0, sx = 0, sy = 0
+  let cmd = '', lastCtrlX = 0, lastCtrlY = 0
+
+  const n = () => parseFloat(tokens[i++])
+
+  while (i < tokens.length) {
+    if (/[A-Za-z]/.test(tokens[i])) cmd = tokens[i++]
+
+    if (cmd === 'M' || cmd === 'm') {
+      let x = n(), y = n()
+      if (cmd === 'm') { x += cx; y += cy }
+      cr.moveTo(x, y); cx = sx = x; cy = sy = y
+      cmd = cmd === 'M' ? 'L' : 'l'
+    } else if (cmd === 'L' || cmd === 'l') {
+      let x = n(), y = n()
+      if (cmd === 'l') { x += cx; y += cy }
+      cr.lineTo(x, y); cx = x; cy = y
+    } else if (cmd === 'H' || cmd === 'h') {
+      let x = n()
+      if (cmd === 'h') x += cx
+      cr.lineTo(x, cy); cx = x
+    } else if (cmd === 'V' || cmd === 'v') {
+      let y = n()
+      if (cmd === 'v') y += cy
+      cr.lineTo(cx, y); cy = y
+    } else if (cmd === 'C' || cmd === 'c') {
+      let x1=n(),y1=n(),x2=n(),y2=n(),x=n(),y=n()
+      if (cmd === 'c') { x1+=cx;y1+=cy;x2+=cx;y2+=cy;x+=cx;y+=cy }
+      cr.curveTo(x1,y1,x2,y2,x,y)
+      lastCtrlX=x2; lastCtrlY=y2; cx=x; cy=y
+    } else if (cmd === 'S' || cmd === 's') {
+      let x2=n(),y2=n(),x=n(),y=n()
+      if (cmd === 's') { x2+=cx;y2+=cy;x+=cx;y+=cy }
+      cr.curveTo(2*cx-lastCtrlX, 2*cy-lastCtrlY, x2, y2, x, y)
+      lastCtrlX=x2; lastCtrlY=y2; cx=x; cy=y
+    } else if (cmd === 'Z' || cmd === 'z') {
+      cr.closePath(); cx=sx; cy=sy
+    }
+  }
+}
+
+function boltPath(cr: Cairo.Context, ox: number, oy: number, s: number) {
+  const pts = [[0.55,0],[0.15,0.55],[0.42,0.55],[0.35,1],[0.85,0.4],[0.55,0.4]]
+  pts.forEach(([px,py], i) => {
+    if (i===0) cr.moveTo(ox+px*s, oy+py*s)
+    else cr.lineTo(ox+px*s, oy+py*s)
+  })
+  cr.closePath()
+}
+
+export default function BatteryIcon() {
+  const percent = createBinding(battery, "percentage")
+  const charging = createBinding(battery, "charging")
+
+  const SIZE = 30 // alto aproximado en px dentro de la barra
+  const SCALE = SIZE / 500
+
+  return (
+    <drawingarea
+      widthRequest={Math.round(ICON_W * SCALE) + 2}
+      heightRequest={Math.round(ICON_H * SCALE) + 2}
+      valign={Gtk.Align.CENTER}
+      halign={Gtk.Align.CENTER}
+      hexpand={false}
+      vexpand={false}
+      $={(self: Gtk.DrawingArea) => {
+        const redraw = () => self.queue_draw()
+        percent.subscribe(redraw)
+        charging.subscribe(redraw)
+
+        self.set_draw_func((_area, cr: Cairo.Context) => {
+          const p = Math.max(0, Math.min(1, percent.get() ?? 0))
+          const isCharging = charging.get()
+
+          let fr = 1, fg = 1, fb = 1, fa = 1
+          try {
+            const c = self.get_color()
+            fr = c.red; fg = c.green; fb = c.blue; fa = c.alpha
+          } catch (_e) { /* usa el fallback blanco */ }
+
+          cr.scale(SCALE, SCALE)
+          cr.translate(-ICON_MIN_X, -ICON_MIN_Y)
+          cr.setFillRule(Cairo.FillRule.EVEN_ODD)
+
+          cr.newPath()
+          if (isCharging) {
+            parseSvgPath(cr, SHELL_CHARGING_MAIN)
+            parseSvgPath(cr, SHELL_CHARGING_TAB)
+          } else {
+            parseSvgPath(cr, SHELL_NORMAL)
+          }
+          cr.setSourceRGBA(fr, fg, fb, fa)
+          cr.fill()
+
+          cr.newPath()
+          parseSvgPath(cr, isCharging ? RING_CHARGING : RING_NORMAL)
+          cr.setSourceRGBA(fr, fg, fb, fa)
+          cr.fill()
+
+          cr.save()
+          cr.newPath()
+          parseSvgPath(cr, isCharging ? FULL_CHARGING : FULL_NORMAL)
+          cr.clip()
+
+          const fillW = FILL_W * p
+          cr.newPath()
+          cr.rectangle(FILL_X, FILL_Y, fillW, FILL_H)
+          cr.setSourceRGBA(fr, fg, fb, fa)
+          cr.fill()
+
+          if (isCharging) {
+            const bsize = FILL_H * 0.85
+            const bx = FILL_X + (FILL_W - bsize * 0.85) / 2
+            const by = FILL_Y + (FILL_H - bsize) / 2
+
+            cr.save()
+            cr.newPath()
+            cr.rectangle(FILL_X, FILL_Y, fillW, FILL_H)
+            cr.clip()
+            cr.newPath()
+            boltPath(cr, bx, by, bsize)
+            cr.setSourceRGBA(0.12, 0.12, 0.16, 1)
+            cr.fill()
+            cr.restore()
+
+            cr.save()
+            cr.newPath()
+            cr.rectangle(FILL_X + fillW, FILL_Y, FILL_W - fillW, FILL_H)
+            cr.clip()
+            cr.newPath()
+            boltPath(cr, bx, by, bsize)
+            cr.setSourceRGBA(fr, fg, fb, fa)
+            cr.fill()
+            cr.restore()
+          }
+
+          cr.restore()
+        })
+      }}
+    />
+  )
+}

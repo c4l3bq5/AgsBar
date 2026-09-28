@@ -1,0 +1,596 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+$fg-color: #{"@theme_fg_color"};
+$pill-bg: rgba(30, 32, 40, 0.5);
+
+// ============================
+// Layout & Bar Elements
+// ============================
+
+window.Bar {
+  background: transparent;
+  color: $fg-color;
+  font-weight: bold;
+  font-size: 11px;
+
+  > centerbox {
+    background: transparent;
+    margin: 0 6px;
+  }
+
+  button:not(.workspace) {
+    border-radius: 8px;
+    margin: 0;
+    padding: 1px 3px;
+    min-height: 0;
+  }
+}
+
+.bar-pill {
+  background: $pill-bg;
+  border-radius: 12px;
+  padding: 0 6px;
+}
+
+.workspace {
+  all: unset;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  border-radius: 999px;
+  transition: min-width 150ms ease, min-height 150ms ease, background-color 150ms ease;
+}
+
+.workspace-inactive {
+  min-width: 8px;
+  min-height: 8px;
+  margin: 0 4px;
+  background-color: rgba(255, 255, 255, 0.35);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.55);
+  }
+}
+
+.workspace-active {
+  min-width: 22px;
+  min-height: 22px;
+  margin: 0 3px;
+  background-color: #5c5b5b;
+
+  label {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 11px;
+  }
+}
+
+// ============================
+// Battery Indicator
+// ============================
+
+.battery-inner {
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 3px;
+  min-width: 22px;
+  min-height: 12px;
+  padding: 1px;
+}
+
+.battery-fill {
+  min-height: 8px;
+  border-radius: 1px;
+  transition: min-width 300ms ease;
+
+  &.batt-ok { background-color: rgba(255, 255, 255, 0.9); }
+  &.batt-low { background-color: #f9e2af; }
+  &.batt-critical { background-color: #f38ba8; }
+}
+
+.battery-nub {
+  background-color: rgba(255, 255, 255, 0.9);
+  min-width: 2px;
+  min-height: 6px;
+  margin-left: 1px;
+  border-radius: 0 2px 2px 0;
+}
+
+.battery-shell {
+  all: unset;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+  }
+}
+
+.charge-bolt {
+  font-size: 8px;
+  font-weight: bold;
+  color: #1e1e2e;
+}
+
+.charge-plug {
+  font-size: 7px;
+  margin: -3px 0 0 -3px;
+}
+
+// ============================
+// Wi-Fi Component
+// ============================
+
+.wifi-menubutton,
+.wifi-menubutton > button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+  }
+}
+
+.wifi-popover {
+  padding: 8px 0;
+  min-width: 240px;
+}
+
+.wifi-popover-container contents {
+  background-color: #1a1a1e;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.wifi-popover-title,
+.wifi-popover-header {
+  padding: 0 12px 6px 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.wifi-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.wifi-row-main {
+  all: unset;
+  padding: 10px 12px;
+  background: transparent;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+
+    .wifi-row-label {
+      color: #ffffff;
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.wifi-row-label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.wifi-row-active {
+  color: $fg-color;
+  font-weight: 600;
+}
+
+.wifi-row-error {
+  color: #f38ba8;
+  font-size: 11px;
+  padding: 2px 8px;
+}
+
+.wifi-password-box {
+  padding: 4px 8px 8px 8px;
+}
+
+.wifi-separator {
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
+.wifi-row-quality {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+}
+
+.wifi-row-connected {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wifi-row-empty {
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+}
+
+//Bluetooth
+
+.bluetooth-menubutton,
+.bluetooth-menubutton > button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+  }
+}
+
+.bluetooth-popover {
+  padding: 8px 0;
+  min-width: 240px;
+}
+
+.bluetooth-popover-container contents {
+  background-color: #1a1a1e;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.bluetooth-popover-title {
+  padding: 0 12px 6px 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.bluetooth-row {
+  all: unset;
+  padding: 10px 12px;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+
+    .bluetooth-row-label {
+      color: #ffffff;
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.bluetooth-row-label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.bluetooth-row-active {
+  color: $fg-color;
+  font-weight: 600;
+}
+
+.bluetooth-row-battery {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+}
+
+.bluetooth-action-btn {
+  all: unset;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+
+  label {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.bluetooth-separator {
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 4px 0;
+}
+
+// ============================
+// Dynamic Island
+// ============================
+
+window.dynamic-island-window {
+  background: transparent;
+  color: $fg-color;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.dynamic-island {
+  background: $pill-bg;
+  border-radius: 12px;
+  padding: 0 6px;
+  min-height: 0;
+  margin-top: 6px;
+  transition: background 180ms ease;
+
+  &.expanded {
+    padding: 6px 14px;
+    background: rgba(20, 20, 24, 0.85);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.island-compact-icon {
+  padding: 0 2px;
+  font-size: 10px;
+}
+
+.island-btn {
+  all: unset;
+  min-height: 0;
+  padding: 2px 6px;
+  border-radius: 8px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.island-close-btn {
+  all: unset;
+  padding: 2px;
+  border-radius: 6px;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.island-content {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.95);
+
+  label {
+    color: inherit;
+  }
+}
+
+.island-charging {
+  color: #a3e635;
+}
+
+.island-media {
+  color: rgba(255, 255, 255, 0.95);
+  transition: opacity 120ms ease;
+
+  &.switching {
+    opacity: 0;
+  }
+}
+
+.clock-small {
+  font-size: 10px;
+  padding: 0 2px;
+}
+
+.island-dots {
+  padding: 0 4px;
+}
+
+.island-dot {
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  margin: 0 2px;
+
+  &.island-dot-active {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.island-nav {
+  background: transparent;
+  padding: 2px 0 0 0;
+}
+
+.island-nav-arrow {
+  all: unset;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  padding: 0 4px;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.island-alert-msg {
+  font-size: 10px;
+  color: #f38ba8;
+}
+
+// ============================
+// Modals & Utility Buttons
+// ============================
+
+.power-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.power-modal-panel,
+.power-modal-item {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.icon-only-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+// ============================
+// Pairing Modal
+// ============================
+
+.pairing-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 40px;
+}
+
+.pairing-modal-panel {
+  background-color: #1a1a1e;
+  border-radius: 14px;
+  padding: 20px 24px;
+  min-width: 260px;
+}
+
+.pairing-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.pairing-device {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+.pairing-passkey {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: $fg-color;
+}
+
+.pairing-hint {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+}
+
+.pairing-entry {
+  min-height: 32px;
+}
+
+.pairing-btn {
+  all: unset;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
+.pairing-btn-accept {
+  background: rgba(163, 230, 53, 0.2);
+  color: #a3e635;
+
+  &:hover {
+    background: rgba(163, 230, 53, 0.3);
+  }
+}
+
+.pairing-btn-reject {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+
+  &:hover {
+    background: rgba(243, 139, 168, 0.25);
+  }
+}
+
+//audio
+.audio-menubutton,
+.audio-menubutton > button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+  }
+}
+
+.audio-popover {
+  padding: 10px 12px;
+  min-width: 160px;
+}
+
+.audio-popover-container contents {
+  background-color: #1a1a1e;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.audio-popover-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+//clock-screen
+window.clock-window {
+  background: transparent;
+}
+
+.clock-greeting,
+.clock-date {
+  font-family: "Norse";
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: #ffffff;
+}
+
+.clock-time {
+  font-family: "Norse";
+  font-size: 96px;
+  letter-spacing: 4px;
+  color: #ffffff;
+}
+
+.clock-line {
+  background-color: rgba(255, 255, 255, 0.45);
+}
