@@ -2,7 +2,7 @@ import Gio from "gi://Gio"
 import GLib from "gi://GLib"
 import { createState } from "ags"
 
-//
+
 
 export type PairingRequest =
   | { kind: "confirm"; device: string; passkey: string; respond: (accept: boolean) => void }
@@ -18,9 +18,9 @@ function clear() {
   setPairingRequest(null)
 }
 
-// ---------------------------------------------------------------------------
-// Definición de la interfaz org.bluez.Agent1 (solo los métodos que usamos)
-// ---------------------------------------------------------------------------
+
+
+
 
 const AGENT_XML = `
 <node>
@@ -62,13 +62,13 @@ const AGENT_XML = `
 const AGENT_PATH = "/hypr/ags/BluetoothAgent"
 const AGENT_CAPABILITY = "KeyboardDisplay"
 
-// device es el object path de bluez (ej. /org/bluez/hci0/dev_41_42_1F_E2_F2_E9);
-// para mostrar algo legible en el modal lo convertimos al alias/dirección real
-// via AstalBluetooth, que ya tiene el device cacheado.
+
+
+
 function deviceLabel(devicePath: string): string {
-  // Se resuelve en PairingModal.tsx buscando el Device de Astal por su path,
-  // acá solo devolvemos el path -- mantenemos este archivo sin depender de
-  // AstalBluetooth para no acoplar el agente a la lib de más arriba.
+
+
+
   return devicePath
 }
 
@@ -163,7 +163,7 @@ export function ensurePairingAgent() {
 
   const exported = Gio.DBusExportedObject.wrapJSObject(iface, impl)
 
-  //ref a nivel de modulo
+
   exportedAgent = exported
 
   const bus = Gio.DBus.system
@@ -208,3 +208,4 @@ export function ensurePairingAgent() {
     }
   )
 }
+

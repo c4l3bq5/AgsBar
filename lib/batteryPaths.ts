@@ -37,3 +37,4 @@ export function boltPath(cr: any, ox: number, oy: number, s: number) {
   })
   cr.closePath()
 }
+

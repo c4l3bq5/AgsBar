@@ -21,7 +21,8 @@ export function initNotifBridge() {
   });
 
   notifd.connect("resolved", () => {
-    // Si no quedan notificaciones activas, limpiamos la línea
+
     if (notifd.get_notifications().length === 0) writeCache("");
   });
 }
+

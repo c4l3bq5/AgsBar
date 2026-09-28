@@ -1,10 +1,10 @@
-// Paths SVG (viewBox 500x500) extraídos de los diseños de Illustrator.
-// Se dibujan con el parser genérico ya existente en svgPath.ts.
+
+
 
 export const VIEWBOX_SIZE = 500
 
-// Cuerpo del parlante (cono + rectángulo). Común a los 3 niveles de volumen
-// y al ícono de "sin dispositivo" (que le suma la X).
+
+
 export const SPEAKER_CONE =
   "M245.2,140.9v217.5c0,10.9-12.5,17.2-21.2,10.6l-77.2-58.2c-3.3-2.5-5.3-6.4-5.3-10.6V199.1c0-4.2,2-8.1,5.3-10.6l77.2-58.2C232.7,123.7,245.2,130,245.2,140.9z"
 
@@ -13,8 +13,8 @@ export const SPEAKER_BODY =
 
 export const SPEAKER_BASE = [SPEAKER_CONE, SPEAKER_BODY]
 
-// Arcos de volumen, del más chico (pegado al cono) al más grande -- se
-// recortan con slice(0, level), igual que SIGNAL_ARCS en Wifiicon.tsx.
+
+
 export const ARC_SMALL =
   "M325,250c0,22.5-9.4,42.8-24.6,57.3c-4.1,3.9-10.6,4-14.8,0.1l-0.3-0.2c-4.6-4.3-4.6-11.5-0.1-15.9c10.9-10.4,17.7-25.1,17.7-41.3c0-15.8-6.4-30.1-16.8-40.4c-4.4-4.4-4.3-11.5,0.2-15.7l0.3-0.2c4.2-3.9,10.8-3.8,14.9,0.3C316.1,208.2,325,228,325,250z"
 
@@ -26,10 +26,10 @@ export const ARC_LARGE =
 
 export const VOLUME_ARCS = [ARC_SMALL, ARC_MEDIUM, ARC_LARGE]
 
-// Ícono de "silenciado": cono+rectángulo ya recortados por la diagonal, los
-// restos de arcos, y la barra diagonal -- tal cual Mute_audioIcon.svg. No se
-// compone a partir de SPEAKER_BASE + VOLUME_ARCS porque el corte de la
-// diagonal ya viene resuelto a mano en esos paths puntuales.
+
+
+
+
 export const MUTED_PATHS = [
   "M298.7,308.6c-4,2.5-9.4,2.1-13.1-1.2l-0.3-0.2c-3.9-3.7-4.5-9.4-1.8-13.7L298.7,308.6z",
   "M325,250c0,13.2-3.2,25.5-8.9,36.5l-16.7-16.7c2.3-6.2,3.5-12.8,3.5-19.8c0-15.8-6.4-30.1-16.8-40.4c-4.4-4.4-4.3-11.5,0.2-15.7l0.3-0.2c4.2-3.9,10.8-3.8,14.9,0.3C316.1,208.2,325,228,325,250z",
@@ -43,8 +43,9 @@ export const MUTED_PATHS = [
   "M441.7,431.9c-1.4,1.4-3.2,2.1-4.9,2.1c-1.8,0-3.6-0.7-5-2.1l-54.7-54.7l-15.6-15.6l-21.8-21.8l-15.6-15.5l-20.4-20.5l-15.6-15.6l-43-43l-74.7-74.7L83.8,83.9c-2.7-2.7-2.7-7.2,0-9.9c1.4-1.4,3.2-2,5-2c1.8,0,3.6,0.7,4.9,2l88.1,88.1l130.6,130.6l20.8,20.8l15.7,15.7l22,21.9l15.6,15.6l55.2,55.2C444.5,424.7,444.5,429.2,441.7,431.9z",
 ]
 
-// Ícono de "sin dispositivo de audio": SPEAKER_BASE + X (NoaudioIcon.svg).
+
 export const NO_DEVICE_PATHS = [
   ...SPEAKER_BASE,
   "M402.6,300.9c4.3,4.3,4.3,11.3,0,15.6c-2.2,2.1-5,3.2-7.8,3.2c-2.8,0-5.6-1.1-7.8-3.2l-50.3-50.3l-50.3,50.3c-2.1,2.1-5,3.2-7.8,3.2c-2.8,0-5.6-1.1-7.8-3.2c-4.3-4.3-4.3-11.3,0-15.6l50.3-50.3l-50.3-50.3c-4.3-4.3-4.3-11.3,0-15.5c4.3-4.3,11.3-4.3,15.6,0l50.3,50.3l50.3-50.3c4.3-4.3,11.3-4.3,15.6,0c4.3,4.3,4.3,11.3,0,15.5l-50.3,50.3L402.6,300.9z",
 ]
+

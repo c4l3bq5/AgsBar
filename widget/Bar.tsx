@@ -82,7 +82,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
 </For>
         </box>
 
-        {/* Reloj central: visible solo cuando la isla NO está activa */}
+        {}
         <box
           $type="center"
           cssClasses={["bar-pill"]}
@@ -93,7 +93,7 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
         </box>
 
         <box $type="end" halign={Gtk.Align.END} spacing={6}>
-          {/* Pill 1: utilidades */}
+          {}
           <box cssClasses={["bar-pill"]} spacing={8}>
             <button
               cssClasses={["battery-shell"]}
@@ -122,12 +122,12 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
             <AudioIcon />
           </box>
 
-          {/* Pill 2: reloj, visible solo cuando la isla SÍ está activa */}
+          {}
           <box cssClasses={["bar-pill"]} visible={islandActive}>
             <label label={time} cssClasses={["clock", "clock-small"]} />
           </box>
 
-          {/* Pill 3: power */}
+          {}
           <box cssClasses={["bar-pill"]}>
             <button class="icon-only-btn" onClicked={togglePowerMenu}>
               <ControlIcon paths={[POWEROFF_PATH_1, POWEROFF_PATH_2, POWEROFF_PATH_3, POWEROFF_PATH_4]} size={18} />
@@ -138,3 +138,4 @@ export default function Bar(gdkmonitor: Gdk.Monitor) {
     </window>
   )
 }
+

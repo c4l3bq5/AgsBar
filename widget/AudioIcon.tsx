@@ -5,9 +5,9 @@ import Wp from "gi://AstalWp"
 import { drawSvgPaths } from "../lib/svgPath"
 import { SPEAKER_BASE, VOLUME_ARCS, MUTED_PATHS, NO_DEVICE_PATHS, VIEWBOX_SIZE } from "../lib/audioPaths"
 
-// AstalWp no viene tipado en los .gir que estás usando (igual que
-// AstalNetwork.AccessPoint.activate_finish en Wifiicon.tsx), así que el
-// endpoint del parlante se maneja como `any` en vez de forzar un tipo.
+
+
+
 type Speaker = any
 
 const SCALE = 30 / VIEWBOX_SIZE
@@ -17,8 +17,8 @@ type AudioVisual =
   | { kind: "muted" }
   | { kind: "level"; level: 1 | 2 | 3 }
 
-// Mismo criterio que strengthLevel() en Wifiicon.tsx, pero acá SÍ puede
-// llegar a "0 arcos": ese caso ya no es un nivel, es directamente "muted".
+
+
 function volumeLevel(volume: number): 1 | 2 | 3 {
   return volume > 0.66 ? 3 : volume > 0.33 ? 2 : 1
 }
@@ -51,10 +51,10 @@ function parseRgb(css: string): [number, number, number] {
   return [Number(m[0]) / 255, Number(m[1]) / 255, Number(m[2]) / 255]
 }
 
-// ---------------------------------------------------------------------------
-// Popover: label + slider, reactivo al parlante activo (que puede cambiar o
-// desaparecer en caliente). Mismo patrón map/unmap que WifiPopoverContent.
-// ---------------------------------------------------------------------------
+
+
+
+
 
 type AudioSnapshot = { hasSpeaker: boolean; volume: number; muted: boolean }
 
@@ -133,7 +133,7 @@ function VolumeBar({ wp }: { wp: Wp.Wp }) {
         })
         self.add_controller(motion)
 
-        // Redibuja si el volumen cambia por fuera (teclas multimedia, otra app)
+
         const attachSpeaker = () => {
           if (speaker && speakerSignalId !== null) speaker.disconnect(speakerSignalId)
           speaker = wp.audio.default_speaker ?? null
@@ -219,9 +219,9 @@ function AudioPopoverContent({ wp }: { wp: Wp.Wp }) {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Ícono principal de la barra
-// ---------------------------------------------------------------------------
+
+
+
 
 export default function AudioIcon({ color = "rgb(226,226,230)" }: { color?: string } = {}) {
   const wp = Wp.get_default()
@@ -299,3 +299,4 @@ export default function AudioIcon({ color = "rgb(226,226,230)" }: { color?: stri
     </menubutton>
   )
 }
+

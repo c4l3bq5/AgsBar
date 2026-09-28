@@ -17,9 +17,9 @@ import {
   boltPath,
 } from "../lib/batteryPaths"
 
-// Tiempo que tarda en ir de vacío a lleno (el regreso tarda lo mismo).
+
 const ANIM_DURATION_MS = 1800
-const ANIM_FRAME_MS = 33 // ~30fps
+const ANIM_FRAME_MS = 33
 
 export default function ChargingBatteryIcon() {
   const SIZE = 68
@@ -37,14 +37,14 @@ export default function ChargingBatteryIcon() {
         const t0 = Date.now()
 
         self.set_draw_func((_area, cr: Cairo.Context) => {
-          const elapsed = (Date.now() - t0) % ANIM_DURATION_MS   // sin el "* 2"
+          const elapsed = (Date.now() - t0) % ANIM_DURATION_MS
 const p = elapsed / ANIM_DURATION_MS
 
           let fr = 1, fg = 1, fb = 1, fa = 1
           try {
             const c = self.get_color()
             fr = c.red; fg = c.green; fb = c.blue; fa = c.alpha
-          } catch (_e) { /* usa el fallback blanco */ }
+          } catch (_e) {  }
 
           cr.scale(SCALE, SCALE)
           cr.translate(-ICON_MIN_X, -ICON_MIN_Y)
@@ -109,3 +109,4 @@ const p = elapsed / ANIM_DURATION_MS
     />
   )
 }
+

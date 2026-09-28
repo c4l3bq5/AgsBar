@@ -1,10 +1,10 @@
-// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+
 $fg-color: #{"@theme_fg_color"};
 $pill-bg: rgba(30, 32, 40, 0.5);
 
-// ============================
-// Layout & Bar Elements
-// ============================
+
+
+
 
 window.Bar {
   background: transparent;
@@ -64,9 +64,9 @@ window.Bar {
   }
 }
 
-// ============================
-// Battery Indicator
-// ============================
+
+
+
 
 .battery-inner {
   border: 2px solid rgba(255, 255, 255, 0.9);
@@ -121,9 +121,9 @@ window.Bar {
   margin: -3px 0 0 -3px;
 }
 
-// ============================
-// Wi-Fi Component
-// ============================
+
+
+
 
 .wifi-menubutton,
 .wifi-menubutton > button {
@@ -224,7 +224,7 @@ window.Bar {
   font-size: 12px;
 }
 
-//Bluetooth
+
 
 .bluetooth-menubutton,
 .bluetooth-menubutton > button {
@@ -319,9 +319,9 @@ window.Bar {
   margin: 4px 0;
 }
 
-// ============================
-// Dynamic Island
-// ============================
+
+
+
 
 window.dynamic-island-window {
   background: transparent;
@@ -440,9 +440,9 @@ window.dynamic-island-window {
   color: #f38ba8;
 }
 
-// ============================
-// Modals & Utility Buttons
-// ============================
+
+
+
 
 .power-modal-backdrop {
   background-color: rgba(0, 0, 0, 0.55);
@@ -468,9 +468,9 @@ window.dynamic-island-window {
   }
 }
 
-// ============================
-// Pairing Modal
-// ============================
+
+
+
 
 .pairing-modal-backdrop {
   background-color: rgba(0, 0, 0, 0.55);
@@ -539,7 +539,7 @@ window.dynamic-island-window {
   }
 }
 
-//audio
+
 .audio-menubutton,
 .audio-menubutton > button {
   background: transparent;
@@ -571,7 +571,7 @@ window.dynamic-island-window {
   color: rgba(255, 255, 255, 0.75);
 }
 
-//clock-screen
+
 window.clock-window {
   background: transparent;
 }
@@ -594,3 +594,4 @@ window.clock-window {
 .clock-line {
   background-color: rgba(255, 255, 255, 0.45);
 }
+

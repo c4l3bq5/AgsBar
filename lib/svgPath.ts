@@ -126,3 +126,4 @@ export function drawSvgPath(cr: any, d: string) {
 export function drawSvgPaths(cr: any, paths: string[]) {
   for (const d of paths) drawSvgPath(cr, d)
 }
+

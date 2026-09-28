@@ -39,7 +39,7 @@ export default function BatteryAlertIcon({
           try {
             const c = self.get_color()
             fr = c.red; fg = c.green; fb = c.blue; fa = c.alpha
-          } catch (_e) { /* usa el fallback blanco */ }
+          } catch (_e) {  }
 
           cr.scale(SCALE, SCALE)
           cr.translate(-ICON_MIN_X, -ICON_MIN_Y)
@@ -75,3 +75,4 @@ export default function BatteryAlertIcon({
     />
   )
 }
+

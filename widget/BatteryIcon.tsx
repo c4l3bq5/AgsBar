@@ -92,7 +92,7 @@ export default function BatteryIcon() {
   const percent = createBinding(battery, "percentage")
   const charging = createBinding(battery, "charging")
 
-  const SIZE = 30 // alto aproximado en px dentro de la barra
+  const SIZE = 30
   const SCALE = SIZE / 500
 
   return (
@@ -116,7 +116,7 @@ export default function BatteryIcon() {
           try {
             const c = self.get_color()
             fr = c.red; fg = c.green; fb = c.blue; fa = c.alpha
-          } catch (_e) { /* usa el fallback blanco */ }
+          } catch (_e) {  }
 
           cr.scale(SCALE, SCALE)
           cr.translate(-ICON_MIN_X, -ICON_MIN_Y)
@@ -180,3 +180,4 @@ export default function BatteryIcon() {
     />
   )
 }
+

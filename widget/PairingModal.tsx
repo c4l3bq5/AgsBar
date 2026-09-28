@@ -154,3 +154,4 @@ function PairingWindow(gdkmonitor: Gdk.Monitor) {
 export default function PairingModal(gdkmonitor: Gdk.Monitor) {
   return PairingWindow(gdkmonitor)
 }
+

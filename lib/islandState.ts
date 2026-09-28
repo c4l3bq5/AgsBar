@@ -33,10 +33,10 @@ export { islandState, setIslandState }
 let backgroundState: IslandState = { kind: "idle" }
 let chargingPulseTimeout: number | null = null
 
-// Reproductor actualmente enfocado en el carousel.
+
 let focusedPlayer: Mpris.Player | null = null
-// true si el usuario navegó manualmente (deslizó/tocó un dot).
-// Se resetea cuando aparece un player nuevo o cuando Spotify toma prioridad.
+
+
 let userOverride = false
 
 const dismissed = new Map<Mpris.Player, boolean>()
@@ -53,7 +53,7 @@ export { batteryAlert }
 
 function triggerBatteryAlert(level: BatteryAlertLevel) {
   setBatteryAlert(level)
-  setIslandState({ kind: "charging", percentage: battery.percentage }) // reutilizamos el pulso visual
+  setIslandState({ kind: "charging", percentage: battery.percentage })
   if (batteryAlertTimeout !== null) clearTimeout(batteryAlertTimeout)
   batteryAlertTimeout = setTimeout(() => {
     batteryAlertTimeout = null
@@ -65,18 +65,18 @@ function triggerBatteryAlert(level: BatteryAlertLevel) {
 battery.connect("notify::percentage", () => {
   const pct = Math.round(battery.percentage * 100)
 
-  // Re-armamos umbrales que ya quedaron atrás al volver a subir (cargando).
+
   for (const threshold of BATTERY_ALERT_THRESHOLDS) {
-    if (pct > threshold + 1) armedThresholds.add(threshold) // +1 como margen anti-parpadeo
+    if (pct > threshold + 1) armedThresholds.add(threshold)
   }
 
-  // Si NO está cargando, evaluamos si cruzamos algún umbral hacia abajo.
+
   if (!battery.charging) {
     for (const threshold of BATTERY_ALERT_THRESHOLDS) {
       if (pct <= threshold && armedThresholds.has(threshold)) {
         armedThresholds.delete(threshold)
         triggerBatteryAlert(threshold)
-        break // solo el umbral más alto que cruzamos en este tick
+        break
       }
     }
   }
@@ -132,16 +132,16 @@ function reevaluate() {
     focusedPlayer = null
     userOverride = false
   } else if (candidate && (!userOverride || candidate.identity === "Spotify")) {
-    // Hay un candidato "fuerte" (algo sonando) y o bien no estás
-    // navegando manualmente, o el candidato es Spotify (que siempre gana).
+
+
     focusedPlayer = candidate
     userOverride = false
   } else if (!focusedPlayer || !players.includes(focusedPlayer)) {
-    // No hay candidato fuerte, y el foco actual ya no existe: fallback.
+
     focusedPlayer = candidate ?? players[players.length - 1]
     userOverride = false
   }
-  // En cualquier otro caso, se respeta userOverride y no tocamos focusedPlayer.
+
 
     if (focusedPlayer && focusedPlayer !== lastPeekedPlayer) {
     lastPeekedPlayer = focusedPlayer
@@ -153,7 +153,7 @@ function reevaluate() {
   refreshBackground(players)
 }
 
-// --- Navegación manual del carousel ---
+
 export function focusPlayer(player: Mpris.Player) {
   focusedPlayer = player
   userOverride = true
@@ -171,7 +171,7 @@ export function focusIndexRelative(delta: number) {
   focusPlayer(players[next])
 }
 
-//cerrar
+
 export function dismissPlayer(player: Mpris.Player) {
   const idx = visiblePlayers().indexOf(player)
 
@@ -183,11 +183,11 @@ export function dismissPlayer(player: Mpris.Player) {
       console.error(">>> dismiss/pause:", e)
     }
   }
-  // Si estaba sonando, queda "sin armar" hasta ver el paused
+
   dismissed.set(player, !wasPlaying)
 
   if (focusedPlayer === player) {
-    // El foco pasa al vecino que ocupa su lugar en el carrusel.
+
     const after = visiblePlayers()
     focusedPlayer = after.length > 0 ? after[Math.min(Math.max(idx, 0), after.length - 1)] : null
     userOverride = false
@@ -196,14 +196,14 @@ export function dismissPlayer(player: Mpris.Player) {
   reevaluate()
 }
 
-//accion manual de "reproducir"
+
 function updateDismissed(player: Mpris.Player) {
   if (!dismissed.has(player)) return
   if (player.playbackStatus !== Mpris.PlaybackStatus.PLAYING) {
     dismissed.set(player, true)
   } else if (dismissed.get(player)) {
     dismissed.delete(player)
-    userOverride = false // vuelve y puede reclamar el foco
+    userOverride = false
   }
 }
 
@@ -269,7 +269,7 @@ function watchPlayer(player: Mpris.Player) {
 
 mpris.connect("player-added", (_mpris, player) => {
   watchPlayer(player)
-  userOverride = false // un player nuevo siempre puede reclamar el foco
+  userOverride = false
   reevaluate()
 })
 
@@ -281,7 +281,7 @@ mpris.connect("player-closed", (_mpris, player) => {
 mpris.get_players()?.forEach(watchPlayer)
 reevaluate()
 
-// --- Hover ---
+
 const [isHovered, setIsHoveredState] = createState(false)
 export { isHovered }
 let collapseDebounce: number | null = null
@@ -298,7 +298,7 @@ export function setHovered(hovered: boolean) {
   }, HOVER_COLLAPSE_DEBOUNCE_MS) as unknown as number
 }
 
-// --- Derivados ---
+
 export const islandActive = createMemo(() => islandState().kind !== "idle")
 export const isExpanded = createMemo(() => {
   const s = islandState()
@@ -313,7 +313,8 @@ export const islandView = createMemo(() => ({
   state: islandState(),
 }))
 
-//only for testing purpouses
+
 export function debugTriggerBatteryAlert(level: BatteryAlertLevel) {
   triggerBatteryAlert(level)
 }
+

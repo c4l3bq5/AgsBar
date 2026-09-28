@@ -32,7 +32,7 @@ function hasEnoughSwapForHibernate(): boolean {
     const text = new TextDecoder().decode(out)
     const memTotal = parseInt(text.match(/MemTotal:\s+(\d+)/)?.[1] ?? "0", 10)
     const swapTotal = parseInt(text.match(/SwapTotal:\s+(\d+)/)?.[1] ?? "0", 10)
-    // Margen de seguridad: exigimos que el swap sea al menos igual a la RAM total.
+
     return swapTotal >= memTotal
   } catch (e) {
     console.error(">>> hasEnoughSwapForHibernate:", e)
@@ -55,9 +55,9 @@ const ACTIONS: PowerAction[] = [
   { id: "poweroff", label: "Apagar", paths: [POWEROFF_PATH_1, POWEROFF_PATH_2, POWEROFF_PATH_3, POWEROFF_PATH_4], command: ["systemctl", "poweroff"], destructive: true },
 ]
 
-const BASE_ICON_SIZE = 34   // tamaño en reposo
-const HOVER_ICON_SIZE = 42  // tamaño al pasar el mouse
-const SLOT_SIZE = 60        // área fija del widget, no cambia (evita re-layout)
+const BASE_ICON_SIZE = 34
+const HOVER_ICON_SIZE = 42
+const SLOT_SIZE = 60
 const GROW_LERP = 0.25
 
 function PowerIcon({ paths }: { paths: string[] }) {
@@ -70,9 +70,9 @@ function PowerIcon({ paths }: { paths: string[] }) {
       $={(self: Gtk.DrawingArea) => {
         let target = BASE_ICON_SIZE
         let current = BASE_ICON_SIZE
-        // El interval solo existe mientras hay animación pendiente.
-        // Se crea al entrar/salir del hover y se destruye solo apenas
-        // current alcanza target, en vez de correr para siempre a 60fps.
+
+
+
         let intervalId: number | null = null
 
         self.set_draw_func((_area, cr: any, width: number, height: number) => {
@@ -203,3 +203,4 @@ export default function PowerModal() {
     </window>
   )
 }
+

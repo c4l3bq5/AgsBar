@@ -3,15 +3,15 @@ import GdkPixbuf from "gi://GdkPixbuf"
 import { Gtk } from "ags/gtk4"
 
 const COVER_SIZE = 26
-const ROTATION_MS = 8000 // una vuelta completa cada 8s, como un vinilo a velocidad lenta
+const ROTATION_MS = 8000
 
 const BAR_COUNT = 5
 const BAR_WIDTH = 3
 const BAR_GAP = 3
 const BAR_MAX_HEIGHT = 18
 const BAR_MIN_HEIGHT = 4
-const BAR_RETARGET_MS = 220 // cada cuánto se elige una nueva altura objetivo
-const BAR_LERP_SPEED = 0.25 // 0-1, qué tan rápido se acerca al objetivo cada frame
+const BAR_RETARGET_MS = 220
+const BAR_LERP_SPEED = 0.25
 
 function CompactCover({ artUrl }: { artUrl: string | null }) {
   return (
@@ -153,3 +153,5 @@ export default function CompactMediaVisual({ artUrl, playing }: { artUrl: string
     </box>
   )
 }
+
+

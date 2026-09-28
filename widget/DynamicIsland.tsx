@@ -88,7 +88,7 @@ function MediaControls({ info }: { info: MediaPlayerInfo }) {
       >
         <ControlIcon paths={[NEXT_PATH]} size={20} />
       </button>
-      
+
       <PlayPauseButton info={info} />
 
       <button
@@ -139,7 +139,7 @@ function TrackProgress({ info }: { info: MediaPlayerInfo }) {
       halign={Gtk.Align.CENTER}
       $={(self: Gtk.DrawingArea) => {
         let isSeeking = false
-        let previewPercent: number | null = null // valor mostrado mientras se arrastra
+        let previewPercent: number | null = null
 
         const percentFromX = (x: number) => {
           const r = 4
@@ -152,8 +152,8 @@ function TrackProgress({ info }: { info: MediaPlayerInfo }) {
           if (length <= 0) return
           try {
             if (!info.player.can_seek) return
-            // OJO: nombre/firma real a confirmar con gjs -c si esto tira error
-            // (puede ser set_position(pos) o requerir el track id de metadata).
+
+
             info.player.set_position(percent * length)
           } catch (e) {
             console.error(">>> seek error:", e)
@@ -494,3 +494,4 @@ export default function DynamicIsland() {
     </window>
   )
 }
+

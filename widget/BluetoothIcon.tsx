@@ -26,7 +26,7 @@ type RowInfo = {
   name: string
   connected: boolean
   paired: boolean
-  battery: number // -1 si el dispositivo no reporta
+  battery: number
 }
 
 function toRow(d: Bluetooth.Device): RowInfo {
@@ -52,15 +52,15 @@ function discoveredDevices(): RowInfo[] {
   return all.filter(d => !d.paired).map(toRow)
 }
 
-// ---------------------------------------------------------------------------
-// Conectar / desconectar / emparejar
-// ---------------------------------------------------------------------------
+
+
+
 
 function connectDevice(device: Bluetooth.Device): Promise<void> {
   return new Promise((resolve, reject) => {
     device.connect_device((_source: unknown, res: unknown) => {
       try {
-        // @ts-ignore -- *_finish no está tipado en los .gir actuales
+
         device.connect_device_finish(res)
         resolve()
       } catch (e) {
@@ -74,7 +74,7 @@ function disconnectDevice(device: Bluetooth.Device): Promise<void> {
   return new Promise((resolve, reject) => {
     device.disconnect_device((_source: unknown, res: unknown) => {
       try {
-        // @ts-ignore
+
         device.disconnect_device_finish(res)
         resolve()
       } catch (e) {
@@ -84,10 +84,10 @@ function disconnectDevice(device: Bluetooth.Device): Promise<void> {
   })
 }
 
-// device.objectPath puede venir undefined en dispositivos recién anunciados
-// por advertising (BlueZ a veces completa las propiedades del proxy en dos
-// tiempos). Como fallback confiable, se reconstruye el path D-Bus a partir
-// de la MAC, que siempre está disponible.
+
+
+
+
 function devicePathFromAddress(address: string, adapterPath: string): string {
   const suffix = address.replace(/:/g, "_")
   return `${adapterPath}/dev_${suffix}`
@@ -108,7 +108,7 @@ function pairDeviceAsync(device: Bluetooth.Device): Promise<void> {
       null,
       null,
       Gio.DBusCallFlags.NONE,
-      120000, // 2 minutos -- puede tardar en confirmar del otro lado
+      120000,
       null,
       (_source, res) => {
         try {
@@ -122,9 +122,9 @@ function pairDeviceAsync(device: Bluetooth.Device): Promise<void> {
   })
 }
 
-// ---------------------------------------------------------------------------
-// Fila de dispositivo (conectado / emparejado / descubierto)
-// ---------------------------------------------------------------------------
+
+
+
 
 function DeviceRow({
   info,
@@ -204,9 +204,9 @@ function DeviceRow({
   )
 }
 
-// ---------------------------------------------------------------------------
-// Sección "buscar dispositivos nuevos"
-// ---------------------------------------------------------------------------
+
+
+
 
 function DiscoverySection() {
   const [discovering, setDiscovering] = createState(false)
@@ -331,16 +331,16 @@ function DiscoverySection() {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Popover completo
-// ---------------------------------------------------------------------------
+
+
+
 
 function BluetoothPopoverContent() {
   const [connectedRows, setConnectedRows] = createState<RowInfo[]>([])
   const [pairedRows, setPairedRows] = createState<RowInfo[]>([])
 
   function refresh() {
-    const all = knownDevices() // todos los paired, connected primero
+    const all = knownDevices()
     setConnectedRows(all.filter((d) => d.connected))
     setPairedRows(all.filter((d) => !d.connected))
   }
@@ -351,7 +351,7 @@ function BluetoothPopoverContent() {
     } catch (e) {
       console.error(">>> bt disconnect (icon) error:", e)
     }
-    refresh() // no depender solo de la señal
+    refresh()
   }
 
   function handleForget(device: Bluetooth.Device) {
@@ -360,7 +360,7 @@ function BluetoothPopoverContent() {
     } catch (e) {
       console.error(">>> bt forget error:", e)
     }
-    refresh() // no depender solo de la señal
+    refresh()
   }
 
   return (
@@ -411,9 +411,9 @@ function BluetoothPopoverContent() {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Ícono de la barra
-// ---------------------------------------------------------------------------
+
+
+
 
 export default function BluetoothIcon({ color = "rgb(226,226,230)" }: { color?: string } = {}) {
   const [r, g, b] = parseRgb(color)
@@ -446,8 +446,8 @@ export default function BluetoothIcon({ color = "rgb(226,226,230)" }: { color?: 
             cr.fill()
             cr.restore()
 
-            // Puntito de "conectado" dibujado directo en el mismo canvas,
-            // NO como un widget aparte, para no sumar altura al contenedor.
+
+
             if (bt.isConnected) {
               const dotRadius = 3
               const dotX = width / 2
@@ -472,3 +472,4 @@ export default function BluetoothIcon({ color = "rgb(226,226,230)" }: { color?: 
     </menubutton>
   )
 }
+

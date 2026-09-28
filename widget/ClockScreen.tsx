@@ -26,15 +26,15 @@ export default function ClockScreen() {
   const { TOP, BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
   const user = GLib.get_user_name()
 
-  // Un solo poll de 1s; el resto se deriva de él.
+
   const now = createPoll(new Date(), 1000, () => new Date())
 
   const time = now.as((d) => `${pad(d.getHours())}:${pad(d.getMinutes())}`)
   const hello = now.as((d) => `${greeting(d.getHours())} ${user}`)
   const date = now.as((d) => `${pad(d.getDate())} - ${MESES[d.getMonth()]} - ${d.getFullYear()}`)
 
-  // La capa BOTTOM se dibuja en todos los workspaces; solo mostramos el reloj
-  // cuando el workspace enfocado es el 3.
+
+
   const onClockWorkspace = createBinding(hypr, "focusedWorkspace").as(
     (w) => w?.id === CLOCK_WORKSPACE
   )
@@ -62,8 +62,7 @@ export default function ClockScreen() {
 
         <box halign={Gtk.Align.CENTER} spacing={28}>
           <box cssClasses={["clock-line"]} widthRequest={240} heightRequest={1} valign={Gtk.Align.CENTER} />
-          {/* Ancho fijo: los dígitos de Norse no son monoespaciados y sin esto
-              las líneas laterales se moverían cada vez que cambia un número. */}
+          {}
           <label label={time} cssClasses={["clock-time"]} widthRequest={210} xalign={0.5} />
           <box cssClasses={["clock-line"]} widthRequest={240} heightRequest={1} valign={Gtk.Align.CENTER} />
         </box>
@@ -73,3 +72,4 @@ export default function ClockScreen() {
     </window>
   )
 }
+

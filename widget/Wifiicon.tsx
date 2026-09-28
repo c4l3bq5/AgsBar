@@ -65,8 +65,8 @@ type WifiSnapshot = {
   strength: number
 }
 
-// Compartida entre el ícono principal (fuerza de la red conectada) y las
-// filas del popover (fuerza de cada red disponible en el scan).
+
+
 function strengthLevel(strength: number): 1 | 2 | 3 | 4 {
   return strength > 75 ? 4 : strength > 50 ? 3 : strength > 25 ? 2 : 1
 }
@@ -87,8 +87,8 @@ function signalQualityLabel(level: 1 | 2 | 3 | 4): string {
   }
 }
 
-// Etiqueta corta para la fila de "Conectada": reutiliza signalQualityLabel
-// cuando hay señal, y da un texto específico para los demás estados.
+
+
 function connectedStatusLabel(v: WifiVisual): string {
   switch (v.kind) {
     case "disconnected": return "Desconectado"
@@ -98,9 +98,9 @@ function connectedStatusLabel(v: WifiVisual): string {
   }
 }
 
-// Ícono simbólico estándar para la fila de "Conectada" -- se elige un ícono
-// del sistema (no un drawingarea propio) para poder bindearlo reactivamente
-// con .as() sin manejar redibujo de Cairo a mano.
+
+
+
 function wifiSignalIconName(v: WifiVisual): string {
   switch (v.kind) {
     case "disconnected": return "network-wireless-offline-symbolic"
@@ -135,9 +135,9 @@ function parseRgb(css: string): [number, number, number] {
   return [Number(m[0]) / 255, Number(m[1]) / 255, Number(m[2]) / 255]
 }
 
-// ---------------------------------------------------------------------------
-// Conectar / desconectar / olvidar (vía nmcli -- ver nota en la respuesta)
-// ---------------------------------------------------------------------------
+
+
+
 
 function disconnectWifi(ssid: string): Promise<void> {
   return execAsync(["nmcli", "connection", "down", "id", ssid])
@@ -157,11 +157,11 @@ function forgetWifi(ssid: string): Promise<void> {
     })
 }
 
-// ---------------------------------------------------------------------------
-// Ícono de señal (drawingarea propio) -- usado solo por las filas de
-// "disponibles", donde cada fila se recrea entera al cambiar la lista, así
-// que no necesita reactividad interna.
-// ---------------------------------------------------------------------------
+
+
+
+
+
 
 function MiniSignal({ level, active = true }: { level: 1 | 2 | 3 | 4; active?: boolean }) {
   return (
@@ -185,9 +185,9 @@ function MiniSignal({ level, active = true }: { level: 1 | 2 | 3 | 4; active?: b
   )
 }
 
-// ---------------------------------------------------------------------------
-// Fila de red disponible (scan)
-// ---------------------------------------------------------------------------
+
+
+
 
 type ApInfo = {
   ap: AstalNetwork.AccessPoint
@@ -205,7 +205,7 @@ function buildApList(wifi: AstalNetwork.Wifi): ApInfo[] {
   const bySsid = new Map<string, ApInfo>()
   for (const ap of raw) {
     const ssid = ap.get_ssid()
-    if (!ssid) continue // red oculta (sin SSID visible), la ignoramos
+    if (!ssid) continue
     const strength = ap.get_strength()
     const existing = bySsid.get(ssid)
     if (!existing || strength > existing.strength) {
@@ -232,7 +232,7 @@ function NetworkRow({ info }: { info: ApInfo }) {
     setStatus("connecting")
     info.ap.activate(password, (_source: unknown, res: unknown) => {
       try {
-        // @ts-ignore -- activate_finish no está tipado en los .gir actuales
+
         info.ap.activate_finish(res)
         setStatus("idle")
       } catch (e) {
@@ -297,9 +297,9 @@ function NetworkRow({ info }: { info: ApInfo }) {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Popover completo
-// ---------------------------------------------------------------------------
+
+
+
 
 type ConnectedInfo = { ssid: string; visual: WifiVisual } | null
 
@@ -312,7 +312,7 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
   function refreshAps() {
     const wifi = network.wifi
     const list = wifi ? buildApList(wifi) : []
-    // La red activa se muestra en su propia sección; no se duplica acá.
+
     setAps(list.filter((a) => !a.isActive))
   }
 
@@ -344,7 +344,7 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
     try {
       await disconnectWifi(c.ssid)
     } catch {
-      // ya logueado dentro de disconnectWifi
+
     }
     setBusy(false)
     refresh()
@@ -357,7 +357,7 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
     try {
       await forgetWifi(c.ssid)
     } catch {
-      // ya logueado dentro de forgetWifi
+
     }
     setBusy(false)
     refresh()
@@ -396,8 +396,8 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
             try {
               wifi.scan()
               setScanning(true)
-              // Astal no expone una señal de "scan terminado" confiable acá;
-              // 4s alcanza para una pasada de scan típica y apaga el spinner.
+
+
               scanTimeoutId = setTimeout(() => setScanning(false), 4000) as unknown as number
             } catch (e) {
               console.error(">>> wifi.scan:", e)
@@ -406,9 +406,9 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
           refresh()
         }
 
-        // "map"/"unmap" son señales nativas de GTK: se disparan exactamente
-        // cuando el contenido del popover se vuelve visible/invisible,
-        // sin depender de remontar el widget (evita el bug histórico de <With>).
+
+
+
         self.connect("map", attach)
         self.connect("unmap", detach)
 
@@ -425,8 +425,7 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
     >
       <label label="Conectada" halign={Gtk.Align.START} cssClasses={["wifi-popover-title"]} />
 
-      {/* Fila "conectada": SIEMPRE presente en el árbol, solo cambia su
-          visibilidad. No usar <With> acá -- ver nota histórica más abajo. */}
+      {}
       <box
         cssClasses={["wifi-row-connected"]}
         spacing={8}
@@ -476,8 +475,7 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
         />
       </box>
 
-      {/* Placeholder cuando no hay red activa -- también siempre presente,
-          alternando visibilidad con la fila de arriba. */}
+      {}
       <label
         label="No conectado"
         halign={Gtk.Align.START}
@@ -503,9 +501,9 @@ function WifiPopoverContent({ network }: { network: AstalNetwork.Network }) {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Ícono principal de la barra (sin cambios de lógica) + botón/popover
-// ---------------------------------------------------------------------------
+
+
+
 
 export default function WifiIcon({ color = "rgb(226,226,230)" }: { color?: string } = {}) {
   const network = AstalNetwork.get_default()
@@ -593,3 +591,4 @@ export default function WifiIcon({ color = "rgb(226,226,230)" }: { color?: strin
     </menubutton>
   )
 }
+
